@@ -1,4 +1,5 @@
 import os
+# compares two files and check if the first file data isn't present in the second file.
 
 file1 = os.getcwd() + "\\" + "googleext.txt";
 print file1;
