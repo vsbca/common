@@ -1,0 +1,24 @@
+import urllib.request
+import os
+import sys
+import re
+from os import listdir
+
+
+#https://wordpress.org/wordpress-4.0.15.zip
+DESTDIR = "./"
+path ="C:\\Users\\vsb\\Desktop\\python_scripts\\POC\\Downloadwp\\downloaded\\"
+
+for child in os.listdir(path):
+    test_path = os.path.join(path, child)
+    if os.path.isdir(test_path):
+        wp_in= test_path +"\\wordpress\\wp-includes\\"
+        if os.path.isdir(wp_in):
+            ver_file = wp_in + "\\version.php"
+            f = open(ver_file, 'r')
+            for line in f:
+                pattern="wp_version ="
+                if re.findall(pattern, line):
+                    line =line.strip()
+                    print( ver_file)
+                    print(line)
