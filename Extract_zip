@@ -1,0 +1,27 @@
+import sys
+import re
+import zipfile
+import os
+PLUGINLIST = "../urls.txt"
+print('Opening the file')
+urls = open(PLUGINLIST,"r").readlines()
+
+for url in urls:
+    url = url.strip()
+    split_name = url.split("/")
+    filename = split_name[3]
+    split_name = url.split("/")
+    filename = split_name[3]
+    print("Extracting file...")
+    DESTFILE = filename;
+    dir = filename.split(".zip")
+    dirname = dir[0];
+    os.mkdir(dirname)
+    print(dirname);
+    print("Extracting file...")
+    unzip = zipfile.ZipFile(DESTFILE)
+    unzip.extractall(path=dirname)
+    unzip.close()
+    print('============ Done now ==========')
+
+
