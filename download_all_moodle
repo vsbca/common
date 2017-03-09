@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+import urllib.request
+from bs4 import BeautifulSoup
+
+#Link parser http://archive.apache.org/dist/struts/2.5.8/
+#http://archive.apache.org/dist/struts/
+def downloadfile(URL,file_name):
+    urllib.request.urlretrieve(URL,filename=file_name)
+    print("Downloaded")
+
+
+def read_link(url):
+    codeurl = url
+    response = urllib.request.urlopen(codeurl)
+    #print(response.read())
+    soup = BeautifulSoup(response.read(),"lxml")
+
+    links = soup.findAll("a",href=True)
+
+    for link in links:
+        file = link['href']
+        if file.endswith(".zip"):
+            url = file;
+            filename = file.split("/")
+            file=filename[5]
+            print(file)
+            downloadfile(url,file)
+
+url = "https://download.moodle.org/releases/legacy/"
+read_link(url)
