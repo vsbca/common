@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import requests
+import urllib.request
+import os
+import sys
+import re
+from bs4 import BeautifulSoup
+
+#Link parser http://archive.apache.org/dist/struts/2.5.8/
+#http://archive.apache.org/dist/struts/
+def downloadfile(URL,file_name):
+    urllib.request.urlretrieve(URL,filename=file_name)
+    print("Downloaded")
+
+
+def parse_link(url):
+    link = url
+    version = link.split("/")
+    sub_url = "struts-" + version[5] + "-all.zip"
+    downloadurl = url + sub_url
+    file_name = sub_url
+    downloadfile(url,file_name)
+
+def read_link(url):
+    codeurl = url
+    response = urllib.request.urlopen(codeurl)
+    #print(response.read())
+    soup = BeautifulSoup(response.read(),"lxml")
+
+    links = soup.findAll("a",href=True)
+
+    for link in links:
+        file = link['href']
+        if ( str(file).startswith("1.")  or str(file).startswith('2.') ):
+              link = file.split("/")
+              downlink = url +file+"struts-"+link[0]+"-all.zip"
+              file_name= "struts-"+link[0]+"-all.zip"
+              print(downlink)
+              downloadfile(downlink,file_name)
+
+#url http://archive.apache.org/dist/struts/1.3.10/struts-1.3.10-all.zip
+url = "http://archive.apache.org/dist/struts/"
+read_link(url)
